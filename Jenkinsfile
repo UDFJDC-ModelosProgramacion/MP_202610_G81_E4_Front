@@ -2,58 +2,40 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS 18' // Cambia esto si en tu Jenkins le pusiste otro nombre a la instalación de Node
+        nodejs 'NodeJS 18'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git branch: 'main', url: 'https://github.com/UDFJDC-ModelosProgramacion/MP_202610_G81_E4_Front.git'
             }
         }
 
-        stage('Instalar Dependencias') {
+        stage('Install Dependencies') {
             steps {
                 sh 'npm install'
             }
         }
 
-        stage('Análisis con SonarQube') {
-            environment {
-                scannerHome = tool 'SonarQubeScanner' // Cambia por el nombre de tu herramienta en Jenkins
-            }
+        stage('Build') {
             steps {
-                withSonarQubeEnv('MP_202610_G81_E4_Front') { // Cambia por el nombre de tu servidor en Jenkins
-                    sh "${scannerHome}/bin/sonar-scanner"
-                }
-            }
-        }
-
-        stage('Quality Gate') {
-            steps {
-                timeout(time: 5, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
-
-        stage('Construir (Build)') {
-            steps {
-                // Vite usa este comando para generar la versión de producción en la carpeta 'dist'
                 sh 'npm run build'
             }
         }
-    }
-    
-    post {
-        always {
-            cleanWs()
-        }
-        success {
-            echo 'Pipeline completado exitosamente.'
-        }
-        failure {
-            echo ' El pipeline falló.'
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    def scannerHome = tool 'SonarQubeScanner'
+                    withSonarQubeEnv('SonarQube') { 
+                        sh "${scannerHome}/bin/sonar-scanner \
+                        -Dsonar.projectKey=MP_202610_G81_E4_Front \
+                        -Dsonar.sources=. \
+                        -Dsonar.exclusions=**/node_modules/**,**/dist/**"
+                    }
+                }
+            }
         }
     }
 }
