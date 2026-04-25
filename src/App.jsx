@@ -2,9 +2,9 @@ import React from 'react'
 
 function App() {
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
       <h1>Proyecto Mascota - Universidad Distrital</h1>
-      <p>Análisis de SonarQube en progreso...</p>
+      <p>Análisis de SonarQube listo para ejecutarse.</p>
     </div>
   )
 }
