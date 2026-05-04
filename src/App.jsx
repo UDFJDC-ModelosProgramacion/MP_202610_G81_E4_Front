@@ -4,37 +4,28 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png' 
 import './App.css'
+import PetForm from './components/PetForm'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <div id="root"> 
-      <section id="center">
-        <div className="hero">
-          {/* Imagen principal PNG */}
-          <img src={heroImg} className="base" alt="Mascota Base" />
-          
-          {/* Logos SVG importados (con los colores durazno que creamos) */}
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
+      <section id="center" className="pet-ui">
+  
+  <div className="phone-card">
+    
+    <div className="header">
+      <span>🐾</span>
+      <h3>Registrar mascota</h3>
+      <span>≡</span>
+    </div>
 
-        <div>
-          <h1>Mascota Project</h1>
-          <p>
-            Grupo 81 - Universidad Distrital <br />
-            <code>Equipo 4</code>
-          </p>
-        </div>
+    <PetForm />
 
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Explorar mascotas: {count}
-        </button>
-      </section>
+  </div>
+
+</section>
 
       <div className="ticks"></div>
 
