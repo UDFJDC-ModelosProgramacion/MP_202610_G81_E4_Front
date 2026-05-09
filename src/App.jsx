@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png' 
+//Rutas
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { TrialStay } from './pages/TrialStay/TrialStay'
 import { Shelter } from './pages/Shelter/Shelter'
