@@ -5,6 +5,8 @@ import heroImg from './assets/hero.png'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { TrialStay } from './pages/TrialStay/TrialStay'
 import { Shelter } from './pages/Shelter/Shelter'
+import {TrialStay} from './pages/TrialStay/TrialStay'
+import {AdoptionRequest} from './pages/AdoptionRequest/AdoptionRequest'
 import './App.css'
 
 function App() {
@@ -16,6 +18,12 @@ function App() {
         <Route path="/shelter" element={<Shelter />} />
       </Routes>
     </Router>
+   <Router>
+    <Routes>
+      <Route path="/trial-stay" element={<TrialStay />} />
+      <Route path="/adoption-requests" element={<AdoptionRequest/>}/>
+    </Routes>
+   </Router>
   )
 }
 
