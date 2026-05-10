@@ -1,0 +1,303 @@
+.appContainer {
+  min-height: 100vh;
+  background-color: #fff0f3;
+  padding: 2rem 0;
+}
+
+.mainContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin-bottom: 2rem;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.statCardPending,
+.statCardApproved,
+.statCardRejected {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.statCardPending {
+  border-left: 5px solid #eab308;
+}
+
+.statCardApproved {
+  border-left: 5px solid #22c55e;
+}
+
+.statCardRejected {
+  border-left: 5px solid #ef4444;
+}
+
+.statCardPending p,
+.statCardApproved p,
+.statCardRejected p {
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.statCardPending h2,
+.statCardApproved h2,
+.statCardRejected h2 {
+  font-size: 2rem;
+  color: #111827;
+}
+
+.tableContainer {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.tableHeader {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tableHeader h2 {
+  color: #1f2937;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead {
+  background: #f9fafb;
+}
+
+.table th {
+  text-align: left;
+  padding: 1rem;
+  color: #374151;
+  font-size: 0.85rem;
+}
+
+.table td {
+  padding: 1rem;
+  border-top: 1px solid #f3f4f6;
+  color: #374151;
+}
+
+.petCell {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.petImage {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+  border-radius: 999px;
+}
+
+.petName {
+  font-weight: 700;
+}
+
+.petType {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.pendingBadge,
+.approvedBadge,
+.rejectedBadge {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.pendingBadge {
+  background: #fef9c3;
+  color: #ca8a04;
+}
+
+.approvedBadge {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.rejectedBadge {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.detailButton {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.detailButton:hover {
+  background: #1d4ed8;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  width: 90%;
+  max-width: 700px;
+
+  border-radius: 20px;
+  padding: 2rem;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1f2937;
+
+  margin-bottom: 1.5rem;
+}
+
+.modalContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.modalImage {
+  width: 250px;
+  height: 250px;
+
+  object-fit: cover;
+
+  border-radius: 15px;
+}
+
+.modalInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+
+  color: #374151;
+}
+
+.closeButton {
+  background: #db2777;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.8rem 1.4rem;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton:hover {
+  background: #be185d;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  align-items: stretch;
+}
+.modalButtons button {
+  flex: 1;
+  height: 50px;
+}
+
+.approveButton {
+  background: #16a34a;
+  color: white;
+
+  border: none;
+  border-radius: 10px;
+
+  padding: 0.8rem 1.4rem;
+
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.approveButton:hover {
+  background: #15803d;
+}
+
+.rejectButton {
+  background: #dc2626;
+  color: white;
+
+  border: none;
+  border-radius: 10px;
+
+  padding: 0.8rem 1.4rem;
+
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.rejectButton:hover {
+  background: #b91c1c;
+}
+.infoCard {
+  border: 1px solid #d1d5db;
+  border-radius: 14px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+}
+
+.infoTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  color: #1f2937;
+
+  margin-bottom: 1rem;
+}
+
+.dateSection {
+  margin-top: 2rem;
+}

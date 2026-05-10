@@ -1,0 +1,303 @@
+.appContainer {
+  min-height: 100vh;
+  background-color: #fff0f3;
+  padding: 2rem 0;
+}
+
+.mainContent {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* BOTÓN VOLVER */
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: #db2777;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  padding: 0;
+  transition: gap 0.2s;
+}
+
+.backBtn:hover { gap: 0.8rem; }
+
+/* HERO */
+.heroCard {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  margin-bottom: 1.5rem;
+}
+
+.heroImage {
+  height: 220px;
+  background: linear-gradient(135deg, #fed7aa, #fbcfe8, #e9d5ff);
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.heroBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: white;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #374151;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.heroActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actionBtn {
+  background: white;
+  border: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.actionBtn:hover { transform: scale(1.1); }
+.liked { background: #fdf2f8; }
+
+.heroInfo { padding: 1.5rem 2rem 2rem; }
+
+.badgeActive {
+  background: #d1fae5;
+  color: #065f46;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 0.6rem;
+}
+
+.shelterName {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin: 0 0 0.6rem;
+}
+
+.shelterDesc {
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* GRID DE CONTENIDO */
+.contentGrid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.leftColumn, .rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* TARJETA DE INFO */
+.infoCard, .petsCard {
+  background: white;
+  border-radius: 20px;
+  padding: 1.8rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 0.3rem;
+}
+
+.readOnlyNote {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin: 0 0 1.5rem;
+  font-style: italic;
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.contactIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pink { background: #fdf2f8; }
+.orange { background: #fff7ed; }
+.purple { background: #f5f3ff; }
+
+.contactLabel {
+  font-size: 0.72rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: 0 0 2px;
+}
+
+.contactValue {
+  font-size: 0.9rem;
+  color: #1f2937;
+  font-weight: 600;
+  margin: 0;
+}
+
+.scheduleBox {
+  background: #fff7ed;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.scheduleLabel {
+  font-size: 0.72rem;
+  color: #f97316;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.scheduleValue {
+  font-size: 0.88rem;
+  color: #374151;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.btnContact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  background: #db2777;
+  color: white;
+  text-decoration: none;
+  padding: 0.9rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+  box-sizing: border-box;
+}
+
+.btnContact:hover { background: #be185d; }
+
+/* MASCOTAS */
+.petsCount {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin: 0.3rem 0 1.2rem;
+}
+
+.petsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.petCard {
+  border: 1px solid #f3f4f6;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.petCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(219,39,119,0.1);
+}
+
+.petImage {
+  height: 100px;
+  background: linear-gradient(135deg, #fed7aa, #fbcfe8);
+}
+
+.petInfo { padding: 0.8rem; }
+
+.petHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.petName {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.petStatus {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.available { background: #d1fae5; color: #065f46; }
+.inProcess { background: #fef3c7; color: #92400e; }
+
+.petBreed {
+  font-size: 0.78rem;
+  color: #6b7280;
+  margin: 0 0 2px;
+}
+
+.petSpecies {
+  font-size: 0.72rem;
+  color: #9ca3af;
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 600;
+}
