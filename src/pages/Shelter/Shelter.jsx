@@ -38,7 +38,7 @@ export function Shelter() {
   const handleRegister = async () => {
     if (!validate()) return;
     try {
-      const response = await fetch('http://localhost:8999/api/shelters', {
+      const response = await fetch('http://localhost:8080/api/shelters', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
