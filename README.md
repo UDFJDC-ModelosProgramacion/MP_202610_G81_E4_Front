@@ -1,5 +1,13 @@
 #  Proyecto de Modelos de Programación
 
+## Miembros 
+
+Juliana Sofia Lopez 
+
+Sebastian Castañeda Bello
+
+Lucero Riaño Gómez
+
 ## Descripción del Proyecto
 
 Este proyecto corresponde al desarrollo de una aplicación web dividida en dos capas principales:
