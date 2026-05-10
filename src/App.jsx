@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png' 
+import heroImg from './assets/hero.png'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { TrialStay } from './pages/TrialStay/TrialStay'
 import { Shelter } from './pages/Shelter/Shelter'
+import { ShelterDetail } from './pages/ShelterDetail/ShelterDetail'
 import './App.css'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/trial-stay" element={<TrialStay />} />
         <Route path="/shelter" element={<Shelter />} />
+        <Route path="/shelter/:id" element={<ShelterDetail />} />
       </Routes>
     </Router>
   )
