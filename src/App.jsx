@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { TrialStay } from './pages/TrialStay/TrialStay'
 import { Shelter } from './pages/Shelter/Shelter'
 import { AdoptionRequest } from './pages/AdoptionRequest/AdoptionRequest'
+import { Review } from './pages/Review/Review'
+import { Register} from './pages/Register/Register'
 import './App.css'
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
         <Route path="/trial-stay" element={<TrialStay />} />
         <Route path="/shelter" element={<Shelter />} />
         <Route path="/adoption-requests" element={<AdoptionRequest />} />
+        <Route path="/reviews" element={<Review />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
   )
