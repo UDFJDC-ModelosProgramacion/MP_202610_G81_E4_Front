@@ -11,6 +11,7 @@ import { ShelterDetail } from './pages/ShelterDetail/ShelterDetail'
 import { AdoptionRequest } from './pages/AdoptionRequest/AdoptionRequest'
 import { Register } from './pages/Register/Register'
 import './App.css'
+import { ManageRequests } from './pages/ManageRequest/ManageRequests'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -39,6 +40,7 @@ function App() {
             <Route path="/trial-stay" element={<TrialStay />} />
             <Route path="/shelter" element={<Shelter />} />
             <Route path="/adoption-requests" element={<AdoptionRequest />} />
+            <Route path="/manage-requests" element={<ManageRequests />}/>
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Shelter />} /> 
           </Routes>
