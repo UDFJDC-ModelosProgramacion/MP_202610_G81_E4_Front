@@ -7,15 +7,21 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Sidebar } from './components/Sidebar'
 import { TrialStay } from './pages/TrialStay/TrialStay'
 import { Shelter } from './pages/Shelter/Shelter'
+import { ShelterDetail } from './pages/ShelterDetail/ShelterDetail'
 import { AdoptionRequest } from './pages/AdoptionRequest/AdoptionRequest'
 import { Register } from './pages/Register/Register'
 import './App.css'
+import { ManageRequests } from './pages/ManageRequest/ManageRequests'
 
 function App() {
   const [count, setCount] = useState(0)
-
   return (
     <Router>
+      <Routes>
+        <Route path="/trial-stay" element={<TrialStay />} />
+        <Route path="/shelter" element={<Shelter />} />
+        <Route path="/shelter/:id" element={<ShelterDetail />} />
+      </Routes>
       {/* Contenedor principal con flexbox para alinear Sidebar y Contenido */}
       <div style={{ display: 'flex', minHeight: '100vh' }}>
         
@@ -34,6 +40,7 @@ function App() {
             <Route path="/trial-stay" element={<TrialStay />} />
             <Route path="/shelter" element={<Shelter />} />
             <Route path="/adoption-requests" element={<AdoptionRequest />} />
+            <Route path="/manage-requests" element={<ManageRequests />}/>
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Shelter />} /> 
           </Routes>
