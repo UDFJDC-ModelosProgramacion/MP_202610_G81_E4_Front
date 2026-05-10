@@ -75,7 +75,7 @@ export function TrialStay() {
         console.log("Prueba de convivencia agendada con éxito");
       } else {
         const errorText = await response.text().catch(() => '');
-        console.error("Error al agendar: Servidor respondió con estado", response.status, errorText);
+        console.error("Error del servidor: Verifica que la mascota con ID 1 exista");
         alert(errorText || "El servidor encontró un problema.");
       }
     } catch (error) {
