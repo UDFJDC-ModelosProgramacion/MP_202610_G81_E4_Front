@@ -1,0 +1,70 @@
+.sidebarMini {
+  width: 80px; /* Ancho pequeño */
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  padding: 20px 0;
+  z-index: 1000;
+}
+
+.logo {
+  margin-bottom: 40px;
+}
+
+.menuList {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.menuItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  color: #64748b;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.menuItem:hover {
+  background-color: #f1f5f9;
+  color: #db2777;
+}
+
+.menuItem.active {
+  background-color: #fdf2f8;
+  color: #db2777;
+}
+
+.footer {
+  margin-top: auto;
+  padding-bottom: 20px;
+}
+
+.logoutBtn {
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.logoutBtn:hover {
+  background-color: #fef2f2;
+  color: #ef4444;
+}
