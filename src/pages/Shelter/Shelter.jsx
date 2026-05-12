@@ -148,7 +148,7 @@ export function Shelter() {
                       <div>
                         <h3 className={styles.shelterName}>{shelter.name}</h3>
                         <div className={styles.shelterMeta}>
-                          <span><MapPin size={13} /> {shelter.city} · {shelter.address}</span>
+                          <span><MapPin size={13} /> {shelter.city || 'Bogotá'} · {shelter.address || ''}</span>
                         </div>
                         <div className={styles.shelterStats}>
                           <span className={styles.statBadge}><Phone size={12} /> {shelter.phone}</span>
@@ -251,7 +251,7 @@ export function Shelter() {
                 <h3 className={styles.successTitle}>¡Refugio registrado con éxito!</h3>
                 <p className={styles.successText}>El refugio <strong>{form.name}</strong> ha sido integrado al sistema correctamente.</p>
                 <div className={styles.successDetails}>
-                  <div className={styles.successItem}><MapPin size={16} color="#db2777" /> {form.city} · {form.address}</div>
+                  <div className={styles.successItem}><MapPin size={16} color="#db2777" /> {form.city || 'Ciudad no especificada'} · {form.address}</div>
                   <div className={styles.successItem}><Phone size={16} color="#db2777" /> {form.phone}</div>
                   <div className={styles.successItem}><Mail size={16} color="#db2777" /> {form.email}</div>
                 </div>
