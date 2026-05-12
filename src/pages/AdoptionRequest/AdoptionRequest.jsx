@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./AdoptionRequest.module.css";
 export function AdoptionRequest(){
     const [selectedPet, setSelectedPet] = useState(null);
@@ -9,6 +9,25 @@ export function AdoptionRequest(){
     const [filtroAplicadoTipo, setFiltroAplicadoTipo] = useState("Todos");
     const [filtroAplicadoTamano, setFiltroAplicadoTamano] = useState("Todos");
 
+    
+    useEffect(() => {
+        const cargarMascotas = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/api/pets");
+                const data = await response.json();
+
+                setPets(data);
+
+            } catch(error) {
+                console.error(error);
+                alert("No se pudieron cargar las mascotas");
+            }
+        };
+
+        cargarMascotas();
+        }, []);
+
+    /*
     const pets = [
         {
             id: 1,
@@ -30,8 +49,10 @@ export function AdoptionRequest(){
             status: "AVAILABLE",
             type: "Perro",
         },
-        {id: 3, name: "mirus", status: "ADOPTED"}
+        {id: 3, name: "natasha", status: "ADOPTED"}
     ];
+    */
+    const [pets, setPets] = useState([]);
     return(
         <div className={styles.appContainer}>
             <div className={styles.mainContent}>
