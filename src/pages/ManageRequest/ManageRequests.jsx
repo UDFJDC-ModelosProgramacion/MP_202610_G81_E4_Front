@@ -3,9 +3,8 @@ import { Eye } from "lucide-react";
 import styles from "./ManageRequests.module.css";
 
 export function ManageRequests(){
-    //por ahora en comentario pero al completar las conexiones con el back esto se suara para pedir las solicitudes
-    //const[solicitudes, setSolicitudes] = useState([]);
-   /* useEffect(() => {
+    //por ahora en comentario las solicitudes de prueba, pero la conexion real ya esta establecida
+    useEffect(() => {
         const cargarSolicitudes = async() => {
             try{
                 const response = await fetch("http://localhost:8080/api/adoption-requests");
@@ -20,8 +19,8 @@ export function ManageRequests(){
         };
         cargarSolicitudes();
     },[]);
-    console.log(solicitudes);*/
-    const solicitudesData = [
+    console.log(solicitudes);
+    /*const solicitudesData = [
         {
             id: "SOL-001",
             mascota: {
@@ -86,8 +85,8 @@ export function ManageRequests(){
             fecha: "2026-04-13",
             estado: "Rechazada"
         }
-    ];
-    const [solicitudes, setSolicitudes] = useState(solicitudesData);
+    ];*/
+    const [solicitudes, setSolicitudes] = useState([]);
     const [selectedSolicitud, setSelectedSolicitud] = useState(null);
     const [showDetail, setShowDetail] = useState(false);
     const aprobarSolicitud = (id) => {
