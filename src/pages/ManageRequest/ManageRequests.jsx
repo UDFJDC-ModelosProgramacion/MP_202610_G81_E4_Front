@@ -3,6 +3,9 @@ import { Eye } from "lucide-react";
 import styles from "./ManageRequests.module.css";
 
 export function ManageRequests(){
+    const [solicitudes, setSolicitudes] = useState([]);
+    const [selectedSolicitud, setSelectedSolicitud] = useState(null);
+    const [showDetail, setShowDetail] = useState(false);
     //por ahora en comentario las solicitudes de prueba, pero la conexion real ya esta establecida
     useEffect(() => {
         const cargarSolicitudes = async() => {
@@ -86,13 +89,10 @@ export function ManageRequests(){
             estado: "Rechazada"
         }
     ];*/
-    const [solicitudes, setSolicitudes] = useState([]);
-    const [selectedSolicitud, setSelectedSolicitud] = useState(null);
-    const [showDetail, setShowDetail] = useState(false);
     const aprobarSolicitud = (id) => {
         const nuevasSolicitudes = solicitudes.map((solicitud) =>
             solicitud.id == id
-                ? { ...solicitud, estado: "Aprobada"}
+                ? { ...solicitud, status: "APPROVED"}
                 :solicitud
         );
         setSolicitudes(nuevasSolicitudes);
@@ -101,7 +101,7 @@ export function ManageRequests(){
     const rechazarSolicitud = (id) => {
         const nuevasSolicitudes = solicitudes.map((solicitud) => 
             solicitud.id === id
-                ? { ...solicitud, estado: "Rechazada"}
+                ? { ...solicitud, status: "REJECTED"}
                 : solicitud
         );
         setSolicitudes(nuevasSolicitudes);
@@ -123,7 +123,7 @@ export function ManageRequests(){
                         <h2>
                             {
                                 solicitudes.filter(
-                                    solicitud => solicitud.estado === "Pendiente"
+                                    solicitud => solicitud.status === "PENDING"
                                 ).length
                             }
                         </h2>
@@ -134,7 +134,7 @@ export function ManageRequests(){
                         <h2>
                             {
                                 solicitudes.filter(
-                                    solicitud => solicitud.estado === "Aprobada"
+                                    solicitud => solicitud.status === "APPROVED"
                                 ).length
                             }
                         </h2>
@@ -145,7 +145,7 @@ export function ManageRequests(){
                         <h2>
                             {
                                 solicitudes.filter(
-                                    solicitud => solicitud.estado === "Rechazada"
+                                    solicitud => solicitud.status === "REJECTED"
                                 ).length
                             }
                         </h2>
@@ -185,18 +185,18 @@ export function ManageRequests(){
                                         <div className={styles.petCell}>
 
                                             <img
-                                                src={solicitud.mascota.imagen}
-                                                alt={solicitud.mascota.nombre}
+                                                src={solicitud.pet?.photos?.[0] || "https://via.placeholder.com/150"}
+                                                alt={solicitud.pet?.name}
                                                 className={styles.petImage}
                                             />
 
                                             <div>
                                                 <p className={styles.petName}>
-                                                    {solicitud.mascota.nombre}
+                                                    {solicitud.pet?.name}
                                                 </p>
 
                                                 <p className={styles.petType}>
-                                                    {solicitud.mascota.tipo}
+                                                    {solicitud.pet?.species}
                                                 </p>
                                             </div>
 
@@ -205,25 +205,25 @@ export function ManageRequests(){
                                     </td>
 
                                     <td>
-                                        {solicitud.adoptante.nombre}
+                                        {solicitud.adopter?.name}
                                     </td>
 
                                     <td>
-                                        {solicitud.fecha}
+                                        {solicitud.date}
                                     </td>
 
                                     <td>
 
                                         <span
                                             className={
-                                                solicitud.estado === "Pendiente"
+                                                solicitud.status === "PENDING"
                                                 ? styles.pendingBadge
-                                                : solicitud.estado === "Aprobada"
+                                                : solicitud.status === "APPROVED"
                                                 ? styles.approvedBadge
                                                 : styles.rejectedBadge
                                             }
                                         >
-                                            {solicitud.estado}
+                                            {solicitud.status}
                                         </span>
 
                                     </td>
@@ -275,21 +275,21 @@ export function ManageRequests(){
                                 </h3>
 
                                 <img
-                                    src={selectedSolicitud.mascota.imagen}
-                                    alt={selectedSolicitud.mascota.nombre}
+                                    src={selectedSolicitud.pet?.photos?.[0] || "https://via.placeholder.com/150"}
+                                    alt={selectedSolicitud.pet?.name}
                                     className={styles.modalImage}
                                 />
 
                                 <p>
-                                    <strong>Nombre:</strong> {selectedSolicitud.mascota.nombre}
+                                    <strong>Nombre:</strong> {selectedSolicitud.pet?.name}
                                 </p>
 
                                 <p>
-                                    <strong>Tipo:</strong> {selectedSolicitud.mascota.tipo}
+                                    <strong>Tipo:</strong> {selectedSolicitud.pet?.species}
                                 </p>
 
                                 <p>
-                                    <strong>Edad:</strong> {selectedSolicitud.mascota.edad}
+                                    <strong>Edad:</strong> {selectedSolicitud.pet?.age}
                                 </p>
 
                             </div>
@@ -301,15 +301,15 @@ export function ManageRequests(){
                                 </h3>
 
                                 <p>
-                                    <strong>Nombre:</strong> {selectedSolicitud.adoptante.nombre}
+                                    <strong>Nombre:</strong> {selectedSolicitud.adopter?.name}
                                 </p>
 
                                 <p>
-                                    <strong>Email:</strong> {selectedSolicitud.adoptante.email}
+                                    <strong>Email:</strong> {selectedSolicitud.adopter?.email}
                                 </p>
 
                                 <p>
-                                    <strong>Teléfono:</strong> {selectedSolicitud.adoptante.telefono}
+                                    <strong>Teléfono:</strong> {selectedSolicitud.adopter?.phone}
                                 </p>
 
                                 <div className={styles.dateSection}>
@@ -318,20 +318,20 @@ export function ManageRequests(){
                                         Fecha de Solicitud
                                     </h3>
 
-                                    <p>{selectedSolicitud.fecha}</p>
+                                    <p>{selectedSolicitud.date}</p>
 
                                 </div>
 
                                 <span
                                     className={
-                                        selectedSolicitud.estado === "Pendiente"
+                                        selectedSolicitud.status === "PENDING"
                                         ? styles.pendingBadge
-                                        : selectedSolicitud.estado === "Aprobada"
+                                        : selectedSolicitud.status === "APPROVED"
                                         ? styles.approvedBadge
                                         : styles.rejectedBadge
                                     }
                                 >
-                                    Estado: {selectedSolicitud.estado}
+                                    Estado: {selectedSolicitud.status}
                                 </span>
 
                             </div>
@@ -340,7 +340,7 @@ export function ManageRequests(){
 
                         <div className={styles.modalButtons}>
 
-                            {selectedSolicitud.estado === "Pendiente" && (
+                            {selectedSolicitud.status === "PENDING" && (
                                 <>
                                     <button
                                         className={styles.closeButton}
@@ -364,7 +364,7 @@ export function ManageRequests(){
                                     </button>
                                 </>
                             )}
-                            {selectedSolicitud.estado !== "Pendiente" &&(
+                            {selectedSolicitud.status !== "PENDING" &&(
                                 <button
                                     className={styles.closeButton}
                                     onClick={() => setShowDetail(false)}
