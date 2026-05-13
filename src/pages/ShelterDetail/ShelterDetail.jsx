@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { MapPin, Phone, Mail, PawPrint, ArrowLeft, Heart, Share2, Star, Send } from 'lucide-react';
 import styles from './ShelterDetail.module.css';
+import { Review } from '../Review/Review';
 
 const REVIEWS_API = 'http://localhost:8999/api/reviews';
 
+// Datos de ejemplo del refugio (Hardcoded para la vista)
 const shelterData = {
   id: 1,
   name: 'Refugio Huellas Felices',
@@ -108,7 +110,7 @@ export function ShelterDetail() {
 
         <div className={styles.contentGrid}>
 
-          {/* COLUMNA IZQUIERDA */}
+          {/* COLUMNA IZQUIERDA: INFORMACIÓN DE CONTACTO */}
           <div className={styles.leftColumn}>
 
             {/* INFORMACIÓN DE CONTACTO */}
@@ -242,13 +244,14 @@ export function ShelterDetail() {
 
           </div>
 
-          {/* COLUMNA DERECHA - MASCOTAS */}
+          {/* COLUMNA DERECHA: MASCOTAS ASOCIADAS */}
           <div className={styles.rightColumn}>
             <div className={styles.petsCard}>
               <h2 className={styles.cardTitle}>
-                <PawPrint size={20} color="#db2777" /> Mascotas en este refugio
+                <PawPrint size={20} color="#db2777" /> Mascotas residentes
               </h2>
-              <p className={styles.petsCount}>{shelter.pets.length} mascotas disponibles para adopción</p>
+              <p className={styles.petsCount}>{shelter.pets.length} huellas esperando un hogar</p>
+
               <div className={styles.petsGrid}>
                 {shelter.pets.map(pet => (
                   <div key={pet.id} className={styles.petCard}>
@@ -261,12 +264,16 @@ export function ShelterDetail() {
                         </span>
                       </div>
                       <p className={styles.petBreed}>{pet.breed} · {pet.age}</p>
-                      <p className={styles.petSpecies}>{pet.species}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
+          </div>
+
+          {/* NUEVA SECCIÓN: COMENTARIOS Y RESEÑAS (Ocupa todo el ancho) */}
+          <div className={styles.fullWidthRow}>
+            <Review />
           </div>
 
         </div>

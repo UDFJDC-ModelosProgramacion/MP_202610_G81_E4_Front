@@ -1,3 +1,4 @@
+/* CONTENEDOR PRINCIPAL */
 .appContainer {
   min-height: 100vh;
   background-color: #fff0f3;
@@ -26,7 +27,7 @@
 }
 .backBtn:hover { gap: 0.8rem; }
 
-/* HERO */
+/* HERO (CABECERA) */
 .heroCard {
   background: white;
   border-radius: 20px;
@@ -79,31 +80,38 @@
 .heroInfo { padding: 1.5rem 2rem 2rem; }
 
 .badgeActive {
-  background: #d1fae5;
-  color: #065f46;
+  background-color: #db2777;
+  color: white;
   font-size: 0.72rem;
   font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 20px;
+  padding: 4px 12px;
+  border-radius: 99px;
   display: inline-block;
   margin-bottom: 0.6rem;
+  text-transform: uppercase;
 }
 
 .shelterName { font-size: 2rem; font-weight: 800; color: #1f2937; margin: 0 0 0.6rem; }
-.shelterDesc { color: #6b7280; font-size: 0.95rem; line-height: 1.7; margin: 0; }
 
-/* GRID */
-.contentGrid {
-  display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 1.5rem;
-  align-items: start;
+.shelterDesc {
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0;
 }
 
-.leftColumn, .rightColumn {
-  display: flex;
-  flex-direction: column;
+/* GRID DE CONTENIDO - ESTRUCTURA PROFESIONAL */
+.contentGrid {
+  display: grid;
+  grid-template-columns: 350px 1fr;
   gap: 1.5rem;
+  align-items: start;
+  margin-top: 1.5rem;
+}
+
+.fullWidthRow {
+  grid-column: 1 / -1;
+  margin-top: 1rem;
 }
 
 /* TARJETAS */
@@ -112,6 +120,7 @@
   border-radius: 20px;
   padding: 1.8rem;
   box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  box-sizing: border-box;
 }
 
 .cardTitle {
@@ -132,7 +141,12 @@
 }
 
 /* CONTACTO */
-.contactList { display: flex; flex-direction: column; gap: 1.2rem; margin-bottom: 1.5rem; }
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+}
 
 .contactItem { display: flex; align-items: flex-start; gap: 1rem; }
 
@@ -146,9 +160,9 @@
   flex-shrink: 0;
 }
 
-.pink { background: #fdf2f8; }
-.orange { background: #fff7ed; }
-.purple { background: #f5f3ff; }
+.pink { background-color: #fdf2f8; }
+.orange { background-color: #fff7ed; }
+.purple { background-color: #f5f3ff; }
 
 .contactLabel { font-size: 0.72rem; color: #9ca3af; text-transform: uppercase; font-weight: 600; margin: 0 0 2px; }
 .contactValue { font-size: 0.9rem; color: #1f2937; font-weight: 600; margin: 0; }
@@ -263,7 +277,11 @@
 /* MASCOTAS */
 .petsCount { font-size: 0.85rem; color: #6b7280; margin: 0.3rem 0 1.2rem; }
 
-.petsGrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.petsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
 
 .petCard {
   border: 1px solid #f3f4f6;
@@ -283,5 +301,23 @@
 .available { background: #d1fae5; color: #065f46; }
 .inProcess { background: #fef3c7; color: #92400e; }
 
-.petBreed { font-size: 0.78rem; color: #6b7280; margin: 0 0 2px; }
-.petSpecies { font-size: 0.72rem; color: #9ca3af; margin: 0; text-transform: uppercase; font-weight: 600; }
+.petBreed {
+  font-size: 0.78rem;
+  color: #6b7280;
+  margin: 0 0 2px;
+}
+
+.petSpecies {
+  font-size: 0.72rem;
+  color: #9ca3af;
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* RESPONSIVO */
+@media (max-width: 1024px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+}
