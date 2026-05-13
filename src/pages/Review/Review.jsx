@@ -32,8 +32,8 @@ export const Review = ({ shelterId }) => {
       comments: newComment,
       rating: 5,
       reviewDate: new Date().toISOString().split('T')[0],
-      adoptionId: 2,
-      adopterId: 2
+      adoptionId: 1,
+      adopterId: 1
     };
 
     try {
