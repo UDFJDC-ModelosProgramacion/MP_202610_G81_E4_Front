@@ -1,3 +1,4 @@
+/* CONTENEDOR PRINCIPAL */
 .appContainer {
   min-height: 100vh;
   background-color: #fff0f3;
@@ -28,7 +29,7 @@
 
 .backBtn:hover { gap: 0.8rem; }
 
-/* HERO */
+/* HERO (CABECERA) */
 .heroCard {
   background: white;
   border-radius: 20px;
@@ -85,14 +86,15 @@
 .heroInfo { padding: 1.5rem 2rem 2rem; }
 
 .badgeActive {
-  background: #d1fae5;
-  color: #065f46;
+  background-color: #db2777; /* Corregido al fucsia Diana */
+  color: white;
   font-size: 0.72rem;
   font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 20px;
+  padding: 4px 12px;
+  border-radius: 99px;
   display: inline-block;
   margin-bottom: 0.6rem;
+  text-transform: uppercase;
 }
 
 .shelterName {
@@ -109,26 +111,27 @@
   margin: 0;
 }
 
-/* GRID DE CONTENIDO */
+/* GRID DE CONTENIDO - ESTRUCTURA PROFESIONAL */
 .contentGrid {
   display: grid;
-  grid-template-columns: 360px 1fr;
+  grid-template-columns: 350px 1fr;
   gap: 1.5rem;
   align-items: start;
+  margin-top: 1.5rem;
 }
 
-.leftColumn, .rightColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+.fullWidthRow {
+  grid-column: 1 / -1; /* Ocupa todo el ancho (Comentarios) */
+  margin-top: 1rem;
 }
 
-/* TARJETA DE INFO */
+/* TARJETAS */
 .infoCard, .petsCard {
   background: white;
   border-radius: 20px;
   padding: 1.8rem;
   box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  box-sizing: border-box;
 }
 
 .cardTitle {
@@ -148,6 +151,7 @@
   font-style: italic;
 }
 
+/* CONTACTO */
 .contactList {
   display: flex;
   flex-direction: column;
@@ -171,9 +175,10 @@
   flex-shrink: 0;
 }
 
-.pink { background: #fdf2f8; }
-.orange { background: #fff7ed; }
-.purple { background: #f5f3ff; }
+/* VARIANTES DE COLOR - LÓGICA ÚNICA */
+.pink { background-color: #fdf2f8; }
+.orange { background-color: #fff7ed; }
+.purple { background-color: #f5f3ff; }
 
 .contactLabel {
   font-size: 0.72rem;
@@ -232,7 +237,7 @@
 
 .btnContact:hover { background: #be185d; }
 
-/* MASCOTAS */
+/* GRID DE MASCOTAS */
 .petsCount {
   font-size: 0.85rem;
   color: #6b7280;
@@ -241,7 +246,7 @@
 
 .petsGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
 }
 
@@ -300,4 +305,11 @@
   margin: 0;
   text-transform: uppercase;
   font-weight: 600;
+}
+
+/* RESPONSIVO */
+@media (max-width: 1024px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
 }
