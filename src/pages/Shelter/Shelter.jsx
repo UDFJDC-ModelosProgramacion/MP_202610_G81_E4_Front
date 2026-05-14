@@ -1,32 +1,51 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail, Search, Plus, Building2, ChevronRight, X, CheckCircle2, Users, PawPrint, ArrowLeft } from 'lucide-react';
 import styles from './Shelter.module.css';
 
-// Datos de ejemplo
-const initialShelters = [
-  { id: 1, name: 'Refugio Huellas Felices', address: 'Calle 45 #12-34, Bogotá', phone: '+57 300 123 4567', email: 'huellas@refugio.com', pets: 24, capacity: 40, description: 'Refugio dedicado al rescate y rehabilitación de animales en situación de calle.' },
-  { id: 2, name: 'Patitas al Rescate', address: 'Carrera 80 #50-10, Medellín', phone: '+57 311 987 6543', email: 'patitas@rescate.com', pets: 18, capacity: 30, description: 'Organización sin ánimo de lucro comprometida con el bienestar animal.' },
-  { id: 3, name: 'Casa de los Animales', address: 'Av. 68 #23-15, Cali', phone: '+57 322 456 7890', email: 'casa@animales.com', pets: 35, capacity: 50, description: 'Centro de acogida temporal para animales en espera de adopción.' },
-];
-
+const API_URL = 'http://localhost:8999/api/shelters';
 const VIEWS = { LIST: 'list', REGISTER: 'register', DETAIL: 'detail' };
 
 export function Shelter() {
   const [view, setView] = useState(VIEWS.LIST);
-  const [shelters, setShelters] = useState(initialShelters);
+  const [shelters, setShelters] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [errorApi, setErrorApi] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedShelter, setSelectedShelter] = useState(null);
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [form, setForm] = useState({ name: '', address: '', phone: '', email: '', description: '' });
+  const [form, setForm] = useState({ name: '', city: '', address: '', phone: '', email: '' });
   const [errors, setErrors] = useState({});
 
+  useEffect(() => {
+    fetchShelters();
+  }, []);
+
+  const fetchShelters = async () => {
+    setLoading(true);
+    setErrorApi(null);
+    try {
+      const response = await fetch(API_URL);
+      if (response.ok) {
+        const data = await response.json();
+        setShelters(data);
+      } else {
+        setErrorApi('No se pudo cargar la lista de refugios.');
+      }
+    } catch {
+      setErrorApi('No se pudo conectar con el servidor. Verifica que el backend esté corriendo.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const filtered = shelters.filter(s =>
-    s.name.toLowerCase().includes(searchQuery.toLowerCase())
+    s.name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const validate = () => {
     const e = {};
     if (!form.name.trim()) e.name = 'El nombre es obligatorio';
+    if (!form.city.trim()) e.city = 'La ciudad es obligatoria';
     if (!form.address.trim()) e.address = 'La dirección es obligatoria';
     if (!form.phone.trim()) e.phone = 'El teléfono es obligatorio';
     if (!form.email.trim()) e.email = 'El correo es obligatorio';
@@ -37,42 +56,41 @@ export function Shelter() {
 
   const handleRegister = async () => {
     if (!validate()) return;
+    setErrorApi(null);
     try {
-      const response = await fetch('http://localhost:8080/api/shelters', {
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-      if (response.ok) {
+      if (response.ok || response.status === 201) {
         const newShelter = await response.json();
-        setShelters(prev => [...prev, { ...newShelter, pets: 0, capacity: 30 }]);
+        setShelters(prev => [...prev, newShelter]);
         setIsConfirmed(true);
       } else {
-        // Si el backend no está disponible, simulamos el guardado
-        setShelters(prev => [...prev, { ...form, id: Date.now(), pets: 0, capacity: 30 }]);
-        setIsConfirmed(true);
+        const errorText = await response.text().catch(() => '');
+        setErrorApi(`Error al registrar: ${errorText || response.status}`);
       }
     } catch {
-      setShelters(prev => [...prev, { ...form, id: Date.now(), pets: 0, capacity: 30 }]);
-      setIsConfirmed(true);
+      setErrorApi('No se pudo conectar con el servidor. Verifica que el backend esté corriendo en el puerto 8999.');
     }
   };
 
   const resetForm = () => {
-    setForm({ name: '', address: '', phone: '', email: '', description: '' });
+    setForm({ name: '', city: '', address: '', phone: '', email: '' });
     setErrors({});
     setIsConfirmed(false);
+    setErrorApi(null);
   };
 
   return (
     <div className={styles.appContainer}>
       <main className={styles.mainContent}>
 
-        {/* NAVEGACIÓN ENTRE VISTAS */}
         <nav className={styles.tabNav}>
           <button
             className={`${styles.tabBtn} ${view === VIEWS.LIST ? styles.tabActive : ''}`}
-            onClick={() => { setView(VIEWS.LIST); setSelectedShelter(null); }}
+            onClick={() => { setView(VIEWS.LIST); setSelectedShelter(null); fetchShelters(); }}
           >
             <Search size={16} /> Directorio de Refugios
           </button>
@@ -84,7 +102,7 @@ export function Shelter() {
           </button>
         </nav>
 
-        {/* ── HU05: DIRECTORIO DE REFUGIOS ── */}
+        {/* ── HU05: DIRECTORIO ── */}
         {view === VIEWS.LIST && (
           <div className={styles.fadeIn}>
             <div className={styles.sectionHeader}>
@@ -111,42 +129,47 @@ export function Shelter() {
               )}
             </div>
 
-            <div className={styles.shelterList}>
-              {filtered.length === 0 ? (
-                <div className={styles.emptyState}>
-                  <PawPrint size={40} color="#ec4899" />
-                  <p>No se encontraron refugios con ese nombre.</p>
-                </div>
-              ) : filtered.map(shelter => (
-                <div key={shelter.id} className={styles.shelterCard}>
-                  <div className={styles.shelterCardLeft}>
-                    <div className={styles.shelterAvatar}>
-                      <Building2 size={24} color="#db2777" />
-                    </div>
-                    <div>
-                      <h3 className={styles.shelterName}>{shelter.name}</h3>
-                      <div className={styles.shelterMeta}>
-                        <span><MapPin size={13} /> {shelter.address}</span>
-                      </div>
-                      <div className={styles.shelterStats}>
-                        <span className={styles.statBadge}><PawPrint size={12} /> {shelter.pets} mascotas</span>
-                        <span className={styles.statBadge}><Users size={12} /> Cap. {shelter.capacity}</span>
-                      </div>
-                    </div>
+            {loading && <p className={styles.loadingMsg}>Cargando refugios...</p>}
+            {errorApi && <p className={styles.errorApi}>{errorApi}</p>}
+
+            {!loading && (
+              <div className={styles.shelterList}>
+                {filtered.length === 0 ? (
+                  <div className={styles.emptyState}>
+                    <PawPrint size={40} color="#ec4899" />
+                    <p>No se encontraron refugios.</p>
                   </div>
-                  <button
-                    className={styles.detailBtn}
-                    onClick={() => { setSelectedShelter(shelter); setView(VIEWS.DETAIL); }}
-                  >
-                    Ver ficha <ChevronRight size={16} />
-                  </button>
-                </div>
-              ))}
-            </div>
+                ) : filtered.map(shelter => (
+                  <div key={shelter.id} className={styles.shelterCard}>
+                    <div className={styles.shelterCardLeft}>
+                      <div className={styles.shelterAvatar}>
+                        <Building2 size={24} color="#db2777" />
+                      </div>
+                      <div>
+                        <h3 className={styles.shelterName}>{shelter.name}</h3>
+                        <div className={styles.shelterMeta}>
+                          <span><MapPin size={13} /> {shelter.city || 'Bogotá'} · {shelter.address || ''}</span>
+                        </div>
+                        <div className={styles.shelterStats}>
+                          <span className={styles.statBadge}><Phone size={12} /> {shelter.phone}</span>
+                          <span className={styles.statBadge}><Mail size={12} /> {shelter.email}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      className={styles.detailBtn}
+                      onClick={() => { setSelectedShelter(shelter); setView(VIEWS.DETAIL); }}
+                    >
+                      Ver ficha <ChevronRight size={16} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
-        {/* ── HU04: REGISTRO DE REFUGIO ── */}
+        {/* ── HU04: REGISTRO ── */}
         {view === VIEWS.REGISTER && (
           <div className={styles.fadeIn}>
             <div className={styles.sectionHeader}>
@@ -159,6 +182,8 @@ export function Shelter() {
 
             {!isConfirmed ? (
               <div className={styles.formCard}>
+                {errorApi && <p className={styles.errorApi}>{errorApi}</p>}
+
                 <div className={styles.formGroup}>
                   <label className={styles.label}>Nombre del refugio *</label>
                   <input
@@ -170,15 +195,27 @@ export function Shelter() {
                   {errors.name && <span className={styles.errorMsg}>{errors.name}</span>}
                 </div>
 
-                <div className={styles.formGroup}>
-                  <label className={styles.label}>Dirección *</label>
-                  <input
-                    className={`${styles.input} ${errors.address ? styles.inputError : ''}`}
-                    placeholder="Ej: Calle 45 #12-34, Bogotá"
-                    value={form.address}
-                    onChange={e => setForm({ ...form, address: e.target.value })}
-                  />
-                  {errors.address && <span className={styles.errorMsg}>{errors.address}</span>}
+                <div className={styles.formRow}>
+                  <div className={styles.formGroup}>
+                    <label className={styles.label}>Ciudad *</label>
+                    <input
+                      className={`${styles.input} ${errors.city ? styles.inputError : ''}`}
+                      placeholder="Ej: Bogotá"
+                      value={form.city}
+                      onChange={e => setForm({ ...form, city: e.target.value })}
+                    />
+                    {errors.city && <span className={styles.errorMsg}>{errors.city}</span>}
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label className={styles.label}>Dirección *</label>
+                    <input
+                      className={`${styles.input} ${errors.address ? styles.inputError : ''}`}
+                      placeholder="Ej: Calle 45 #12-34"
+                      value={form.address}
+                      onChange={e => setForm({ ...form, address: e.target.value })}
+                    />
+                    {errors.address && <span className={styles.errorMsg}>{errors.address}</span>}
+                  </div>
                 </div>
 
                 <div className={styles.formRow}>
@@ -204,17 +241,6 @@ export function Shelter() {
                   </div>
                 </div>
 
-                <div className={styles.formGroup}>
-                  <label className={styles.label}>Descripción</label>
-                  <textarea
-                    className={styles.textarea}
-                    placeholder="Breve descripción del refugio y su misión..."
-                    rows={4}
-                    value={form.description}
-                    onChange={e => setForm({ ...form, description: e.target.value })}
-                  />
-                </div>
-
                 <button className={styles.btnPrimary} onClick={handleRegister}>
                   Registrar Refugio
                 </button>
@@ -225,15 +251,15 @@ export function Shelter() {
                 <h3 className={styles.successTitle}>¡Refugio registrado con éxito!</h3>
                 <p className={styles.successText}>El refugio <strong>{form.name}</strong> ha sido integrado al sistema correctamente.</p>
                 <div className={styles.successDetails}>
-                  <div className={styles.successItem}><MapPin size={16} color="#db2777" /> {form.address}</div>
+                  <div className={styles.successItem}><MapPin size={16} color="#db2777" /> {form.city || 'Ciudad no especificada'} · {form.address}</div>
                   <div className={styles.successItem}><Phone size={16} color="#db2777" /> {form.phone}</div>
                   <div className={styles.successItem}><Mail size={16} color="#db2777" /> {form.email}</div>
                 </div>
                 <div className={styles.successActions}>
-                  <button className={styles.btnSecondary} onClick={() => { resetForm(); }}>
+                  <button className={styles.btnSecondary} onClick={resetForm}>
                     Registrar otro refugio
                   </button>
-                  <button className={styles.btnPrimary} onClick={() => setView(VIEWS.LIST)}>
+                  <button className={styles.btnPrimary} onClick={() => { setView(VIEWS.LIST); fetchShelters(); }}>
                     Ver directorio
                   </button>
                 </div>
@@ -242,7 +268,7 @@ export function Shelter() {
           </div>
         )}
 
-        {/* ── HU06: FICHA TÉCNICA DEL REFUGIO ── */}
+        {/* ── HU06: FICHA TÉCNICA ── */}
         {view === VIEWS.DETAIL && selectedShelter && (
           <div className={styles.fadeIn}>
             <button className={styles.backBtn} onClick={() => setView(VIEWS.LIST)}>
@@ -250,7 +276,6 @@ export function Shelter() {
             </button>
 
             <div className={styles.detailGrid}>
-              {/* Info principal */}
               <div className={styles.detailMain}>
                 <div className={styles.detailHeader}>
                   <div className={styles.detailAvatar}>
@@ -259,7 +284,7 @@ export function Shelter() {
                   <div>
                     <span className={styles.badgeActive}>Activo</span>
                     <h2 className={styles.detailName}>{selectedShelter.name}</h2>
-                    <p className={styles.detailDesc}>{selectedShelter.description}</p>
+                    <p className={styles.detailDesc}>{selectedShelter.city}</p>
                   </div>
                 </div>
 
@@ -285,30 +310,19 @@ export function Shelter() {
                       <p className={styles.infoValue}>{selectedShelter.email}</p>
                     </div>
                   </div>
-                  <div className={`${styles.detailInfoBox} ${styles.green}`}>
-                    <Users size={18} color="#10b981" />
-                    <div>
-                      <p className={styles.infoLabel}>Capacidad</p>
-                      <p className={styles.infoValue}>{selectedShelter.pets} / {selectedShelter.capacity} mascotas</p>
-                    </div>
-                  </div>
                 </div>
               </div>
 
-              {/* Mascotas asociadas */}
               <div className={styles.detailPets}>
                 <h3 className={styles.petsTitle}><PawPrint size={18} color="#db2777" /> Mascotas en este refugio</h3>
                 <div className={styles.petsGrid}>
-                  {Array.from({ length: Math.min(selectedShelter.pets, 6) }, (_, i) => (
+                  {[1,2,3,4,5,6].map(i => (
                     <div key={i} className={styles.petThumbnail}>
                       <div className={styles.petThumbImg} />
-                      <p className={styles.petThumbName}>Mascota {i + 1}</p>
+                      <p className={styles.petThumbName}>Mascota {i}</p>
                     </div>
                   ))}
                 </div>
-                {selectedShelter.pets > 6 && (
-                  <p className={styles.morePets}>+{selectedShelter.pets - 6} mascotas más en este refugio</p>
-                )}
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./AdoptionRequest.module.css";
 export function AdoptionRequest(){
     const [selectedPet, setSelectedPet] = useState(null);
@@ -9,6 +9,25 @@ export function AdoptionRequest(){
     const [filtroAplicadoTipo, setFiltroAplicadoTipo] = useState("Todos");
     const [filtroAplicadoTamano, setFiltroAplicadoTamano] = useState("Todos");
 
+    
+    useEffect(() => {
+        const cargarMascotas = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/api/pets");
+                const data = await response.json();
+
+                setPets(data);
+
+            } catch(error) {
+                console.error(error);
+                alert("No se pudieron cargar las mascotas");
+            }
+        };
+
+        cargarMascotas();
+        }, []);
+
+    /*
     const pets = [
         {
             id: 1,
@@ -30,8 +49,10 @@ export function AdoptionRequest(){
             status: "AVAILABLE",
             type: "Perro",
         },
-        {id: 3, name: "mirus", status: "ADOPTED"}
+        {id: 3, name: "natasha", status: "ADOPTED"}
     ];
+    */
+    const [pets, setPets] = useState([]);
     return(
         <div className={styles.appContainer}>
             <div className={styles.mainContent}>
@@ -80,7 +101,7 @@ export function AdoptionRequest(){
                     <div className={styles.petList}>
                         {pets
                             .filter(pet => {
-                                const pasaTipo = filtroAplicadoTipo === "Todos" || pet.type === filtroAplicadoTipo;
+                                const pasaTipo = filtroAplicadoTipo === "Todos" || pet.species === filtroAplicadoTipo;
                                 const pasaTamano = filtroAplicadoTamano === "Todos" || pet.size === filtroAplicadoTamano;
                                 return pet.status === "AVAILABLE" && pasaTipo && pasaTamano;
                             })
@@ -88,15 +109,15 @@ export function AdoptionRequest(){
                                 <div key={pet.id} className={styles.petCard}>
                                     
                                     <img 
-                                        src={pet.image} 
+                                        src={pet.photos?.[0] || "https://via.placeholder.com/300"} 
                                         alt={pet.name} 
                                         className={styles.petImage}
                                     />
 
                                     <div className={styles.petInfo}>
                                         <h4 className={styles.petName}>{pet.name}</h4>
-                                        <p>{pet.age} • {pet.size}</p>
-                                        <p>{pet.description}</p>
+                                        <p>{pet.age} años • {pet.size || "Sin tamaño definido"}</p>
+                                        <p>{pet.breed}•{pet.temperament}</p>
                                     <button 
                                         className={styles.button}
                                         onClick={() => setSelectedPet(pet)}
@@ -138,8 +159,10 @@ export function AdoptionRequest(){
                                 if (confirmacion){
                                     const adoptionData = {
                                     petId: selectedPet.id,
+                                    //aun no se especifica quien es el adoptante, falta seccion de registro del adoptante
                                     adopterId: 1,
-                                    motivation: motivation
+                                    motivation: motivation,
+                                    status: "PENDING"
                                     };
 
                                     try{
@@ -149,16 +172,16 @@ export function AdoptionRequest(){
                                                 "Content-Type": "application/json"
                                             },
                                             body: JSON.stringify(adoptionData)
-                                    });
-
-                                    if (response.ok){
-                                        setIsConfirmed(true);
-                                        setMotivation("");
-                                        setSelectedPet(null);
-                                    } else {
-                                        alert("Error al enviar la solicitud");
-                                    }
-
+                                        
+                                            });
+                                            console.log(await response.text());
+                                            if (response.ok){
+                                                setIsConfirmed(true);
+                                                setMotivation("");
+                                                setSelectedPet(null);
+                                            } else {
+                                                alert("Error al enviar la solicitud");
+                                            }
                                     } catch(error){
                                     console.error(error);
                                         alert("No se pudo conectar con el servidor");
