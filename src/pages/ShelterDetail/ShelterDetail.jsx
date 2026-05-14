@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { MapPin, Phone, Mail, PawPrint, ArrowLeft, Heart, Share2, Star } from 'lucide-react';
+import { MapPin, Phone, Mail, PawPrint, ArrowLeft, Heart, Share2, Star, Send } from 'lucide-react';
 import styles from './ShelterDetail.module.css';
 import { Review } from '../Review/Review';
+
+const REVIEWS_API = 'http://localhost:8999/api/reviews';
 
 // Datos de ejemplo del refugio (Hardcoded para la vista)
 const shelterData = {
@@ -26,7 +28,54 @@ const shelterData = {
 
 export function ShelterDetail() {
   const [liked, setLiked] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [reviewForm, setReviewForm] = useState({ rating: 0, comments: '', adoptionId: '', adopterId: '' });
+  const [hoverRating, setHoverRating] = useState(0);
+  const [reviewError, setReviewError] = useState(null);
+  const [reviewSuccess, setReviewSuccess] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const shelter = shelterData;
+
+  const handleSubmitReview = async () => {
+    if (reviewForm.rating === 0) { setReviewError('Por favor selecciona una calificación.'); return; }
+    if (!reviewForm.comments.trim()) { setReviewError('Por favor escribe un comentario.'); return; }
+    if (!reviewForm.adoptionId) { setReviewError('El ID de adopción es obligatorio.'); return; }
+    if (!reviewForm.adopterId) { setReviewError('El ID del adoptante es obligatorio.'); return; }
+
+    setReviewError(null);
+    setSubmitting(true);
+
+    try {
+      const payload = {
+        rating: reviewForm.rating,
+        comments: reviewForm.comments,
+        reviewDate: new Date().toISOString().split('T')[0],
+        adoptionId: Number(reviewForm.adoptionId),
+        adopterId: Number(reviewForm.adopterId),
+      };
+
+      const response = await fetch(REVIEWS_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok || response.status === 201) {
+        const saved = await response.json();
+        setReviews(prev => [saved, ...prev]);
+        setReviewForm({ rating: 0, comments: '', adoptionId: '', adopterId: '' });
+        setReviewSuccess(true);
+        setTimeout(() => setReviewSuccess(false), 3000);
+      } else {
+        const err = await response.json().catch(() => ({}));
+        setReviewError(err.message || 'Error al enviar la reseña.');
+      }
+    } catch {
+      setReviewError('No se pudo conectar con el servidor.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div className={styles.appContainer}>
@@ -37,17 +86,14 @@ export function ShelterDetail() {
           <ArrowLeft size={16} /> Volver al directorio
         </button>
 
-        {/* ENCABEZADO DEL REFUGIO */}
+        {/* HERO */}
         <div className={styles.heroCard}>
           <div className={styles.heroImage}>
             <div className={styles.heroBadge}>
               <Star size={14} fill="#f59e0b" color="#f59e0b" /> {shelter.rating} ({shelter.reviews} reseñas)
             </div>
             <div className={styles.heroActions}>
-              <button
-                className={`${styles.actionBtn} ${liked ? styles.liked : ''}`}
-                onClick={() => setLiked(!liked)}
-              >
+              <button className={`${styles.actionBtn} ${liked ? styles.liked : ''}`} onClick={() => setLiked(!liked)}>
                 <Heart size={18} fill={liked ? '#db2777' : 'none'} color={liked ? '#db2777' : '#6b7280'} />
               </button>
               <button className={styles.actionBtn}>
@@ -66,51 +112,136 @@ export function ShelterDetail() {
 
           {/* COLUMNA IZQUIERDA: INFORMACIÓN DE CONTACTO */}
           <div className={styles.leftColumn}>
+
+            {/* INFORMACIÓN DE CONTACTO */}
             <div className={styles.infoCard}>
               <h2 className={styles.cardTitle}>Información de contacto</h2>
               <p className={styles.readOnlyNote}>Esta información es de solo lectura</p>
-
               <div className={styles.contactList}>
                 <div className={styles.contactItem}>
-                  <div className={`${styles.contactIcon} ${styles.pink}`}>
-                    <MapPin size={18} color="#db2777" />
-                  </div>
+                  <div className={`${styles.contactIcon} ${styles.pink}`}><MapPin size={18} color="#db2777" /></div>
                   <div>
                     <p className={styles.contactLabel}>Dirección</p>
                     <p className={styles.contactValue}>{shelter.address}</p>
                   </div>
                 </div>
-
                 <div className={styles.contactItem}>
-                  <div className={`${styles.contactIcon} ${styles.orange}`}>
-                    <Phone size={18} color="#f97316" />
-                  </div>
+                  <div className={`${styles.contactIcon} ${styles.orange}`}><Phone size={18} color="#f97316" /></div>
                   <div>
                     <p className={styles.contactLabel}>Teléfono</p>
                     <p className={styles.contactValue}>{shelter.phone}</p>
                   </div>
                 </div>
-
                 <div className={styles.contactItem}>
-                  <div className={`${styles.contactIcon} ${styles.purple}`}>
-                    <Mail size={18} color="#8b5cf6" />
-                  </div>
+                  <div className={`${styles.contactIcon} ${styles.purple}`}><Mail size={18} color="#8b5cf6" /></div>
                   <div>
                     <p className={styles.contactLabel}>Correo electrónico</p>
                     <p className={styles.contactValue}>{shelter.email}</p>
                   </div>
                 </div>
               </div>
-
               <div className={styles.scheduleBox}>
                 <p className={styles.scheduleLabel}>Horario de atención</p>
                 <p className={styles.scheduleValue}>{shelter.schedule}</p>
               </div>
-
               <a href={`mailto:${shelter.email}`} className={styles.btnContact}>
                 <Mail size={16} /> Contactar refugio
               </a>
             </div>
+
+            {/* SECCIÓN DE COMENTARIOS */}
+            <div className={styles.reviewCard}>
+              <h2 className={styles.cardTitle}>
+                <Star size={20} color="#f59e0b" /> Dejar una reseña
+              </h2>
+              <p className={styles.readOnlyNote}>Comparte tu experiencia con este refugio</p>
+
+              {/* ESTRELLAS */}
+              <div className={styles.starsRow}>
+                {[1, 2, 3, 4, 5].map(star => (
+                  <button
+                    key={star}
+                    className={styles.starBtn}
+                    onMouseEnter={() => setHoverRating(star)}
+                    onMouseLeave={() => setHoverRating(0)}
+                    onClick={() => setReviewForm({ ...reviewForm, rating: star })}
+                  >
+                    <Star
+                      size={28}
+                      fill={(hoverRating || reviewForm.rating) >= star ? '#f59e0b' : 'none'}
+                      color={(hoverRating || reviewForm.rating) >= star ? '#f59e0b' : '#d1d5db'}
+                    />
+                  </button>
+                ))}
+                {reviewForm.rating > 0 && (
+                  <span className={styles.ratingLabel}>{reviewForm.rating}/5</span>
+                )}
+              </div>
+
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Comentario *</label>
+                <textarea
+                  className={styles.textarea}
+                  placeholder="Cuéntanos tu experiencia con este refugio..."
+                  rows={3}
+                  value={reviewForm.comments}
+                  onChange={e => setReviewForm({ ...reviewForm, comments: e.target.value })}
+                />
+              </div>
+
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>ID de adopción *</label>
+                  <input
+                    className={styles.input}
+                    type="number"
+                    placeholder="Ej: 1"
+                    value={reviewForm.adoptionId}
+                    onChange={e => setReviewForm({ ...reviewForm, adoptionId: e.target.value })}
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>ID del adoptante *</label>
+                  <input
+                    className={styles.input}
+                    type="number"
+                    placeholder="Ej: 1"
+                    value={reviewForm.adopterId}
+                    onChange={e => setReviewForm({ ...reviewForm, adopterId: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              {reviewError && <p className={styles.errorMsg}>{reviewError}</p>}
+              {reviewSuccess && <p className={styles.successMsg}>¡Reseña enviada con éxito!</p>}
+
+              <button
+                className={styles.btnSubmitReview}
+                onClick={handleSubmitReview}
+                disabled={submitting}
+              >
+                <Send size={16} /> {submitting ? 'Enviando...' : 'Enviar reseña'}
+              </button>
+
+              {/* RESEÑAS ENVIADAS EN ESTA SESIÓN */}
+              {reviews.length > 0 && (
+                <div className={styles.reviewsList}>
+                  <h3 className={styles.reviewsTitle}>Reseñas recientes</h3>
+                  {reviews.map((r, i) => (
+                    <div key={i} className={styles.reviewItem}>
+                      <div className={styles.reviewStars}>
+                        {[1,2,3,4,5].map(s => (
+                          <Star key={s} size={14} fill={r.rating >= s ? '#f59e0b' : 'none'} color={r.rating >= s ? '#f59e0b' : '#d1d5db'} />
+                        ))}
+                      </div>
+                      <p className={styles.reviewComment}>{r.comments}</p>
+                      <p className={styles.reviewDate}>{r.reviewDate}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
           </div>
 
           {/* COLUMNA DERECHA: MASCOTAS ASOCIADAS */}
