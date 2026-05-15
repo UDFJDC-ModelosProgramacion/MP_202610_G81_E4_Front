@@ -14,27 +14,24 @@ function App() {
   return (
     <Router>
       <div style={{ display: 'flex', minHeight: '100vh' }}>
-        
-        {/* 1. Sidebar Fijo */}
         <Sidebar />
 
-        {/* 2. Área de contenido principal con el fondo fucsia clarito */}
-        <main style={{ 
-          flex: 1, 
-          marginLeft: '150px', 
+        {/* Área de contenido principal con el fondo fucsia clarito */}
+        <main style={{
+          flex: 1,
+          marginLeft: '150px',
           padding: '20px',
-          backgroundColor: '#fce7f3', 
+          backgroundColor: '#fce7f3',
           minHeight: '100vh'
         }}>
-          {/* USAMOS UNA SOLA ETIQUETA ROUTES */}
           <Routes>
-            <Route path="/" element={<Shelter />} /> 
+            <Route path="/" element={<Shelter />} />
             <Route path="/shelter" element={<Shelter />} />
             <Route path="/shelter/:id" element={<ShelterDetail />} />
             <Route path="/trial-stay" element={<TrialStay />} />
             <Route path="/adoption-requests" element={<AdoptionRequest />} />
             <Route path="/review" element={<Review />} />
-            <Route path="/manage-requests" element={<ManageRequests />}/>
+            <Route path="/manage-requests" element={<ManageRequests />} />
             <Route path="/register" element={<Register />} />
           </Routes>
         </main>
