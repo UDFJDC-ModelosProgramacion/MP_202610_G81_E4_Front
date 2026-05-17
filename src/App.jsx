@@ -9,6 +9,7 @@ import { Register } from './pages/Register/Register'
 import { Review } from './pages/Review/Review'
 import { ManageRequests } from './pages/ManageRequest/ManageRequests'
 import './App.css'
+import { SuperviseRequests } from './pages/SuperviseRequests/SuperviseRequests'
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path="/adoption-requests" element={<AdoptionRequest />} />
             <Route path="/review" element={<Review />} />
             <Route path="/manage-requests" element={<ManageRequests />} />
+            <Route path="/Supervise-requests"element={<SuperviseRequests/>}/>
             <Route path="/register" element={<Register />} />
           </Routes>
         </main>
