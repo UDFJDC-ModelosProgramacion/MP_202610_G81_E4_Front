@@ -3,7 +3,7 @@ import { MapPin, Phone, Mail, PawPrint, ArrowLeft, Heart, Share2, Star, Send } f
 import styles from './ShelterDetail.module.css';
 import { Review } from '../Review/Review';
 
-const REVIEWS_API = 'http://localhost:8999/api/reviews';
+const REVIEWS_API = 'http://localhost:8080/api/reviews';
 
 // Datos de ejemplo del refugio (Hardcoded para la vista)
 const shelterData = {
