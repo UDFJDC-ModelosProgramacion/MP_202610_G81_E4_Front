@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { MapPin, Phone, Mail, Search, Plus, Building2, ChevronRight, X, CheckCircle2, Users, PawPrint, ArrowLeft } from 'lucide-react';
 import styles from './Shelter.module.css';
 
-const API_URL = 'http://localhost:8999/api/shelters';
+const API_URL = 'http://localhost:8080/api/shelters';
 const VIEWS = { LIST: 'list', REGISTER: 'register', DETAIL: 'detail' };
 
 export function Shelter() {

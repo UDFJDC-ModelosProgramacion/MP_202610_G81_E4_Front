@@ -1,4 +1,4 @@
-import { Home, Building2, Calendar, Settings, LogOut, Heart } from 'lucide-react';
+import { Home, Building2, Calendar, Settings, LogOut, Heart, PawPrint } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import styles from './Sidebar.module.css';
 
@@ -8,20 +8,27 @@ export function Sidebar() {
   return (
     <nav className={styles.sidebarMini}>
       <div className={styles.logo}>
-        <Link to="/" title="Orejitas y Colitas">
+        <Link to="/adoption-requests" title="Orejitas y Colitas">
           <Heart size={28} color="#db2777" fill="#db2777" />
         </Link>
       </div>
 
       <ul className={styles.menuList}>
-        {/* AHORA LA CASA DIRIGE A ADOPCIONES */}
+        {/* CASA DIRIGE A ADOPCIONES */}
         <Link to="/adoption-requests" title="Adopciones" className={styles.link}>
           <li className={`${styles.menuItem} ${location.pathname === '/adoption-requests' ? styles.active : ''}`}>
             <Home size={24} />
           </li>
         </Link>
 
-        <Link to="/shelter/:id" title="Refugios" className={styles.link}>
+        {/* NUEVA OPCIÓN: REGISTRO DE MASCOTA */}
+        <Link to="/pet-register" title="Registrar Mascota" className={styles.link}>
+          <li className={`${styles.menuItem} ${location.pathname === '/pet-register' ? styles.active : ''}`}>
+            <PawPrint size={24} />
+          </li>
+        </Link>
+
+        <Link to="/shelter" title="Refugios" className={styles.link}>
           <li className={`${styles.menuItem} ${location.pathname.startsWith('/shelter') ? styles.active : ''}`}>
             <Building2 size={24} />
           </li>
@@ -41,9 +48,12 @@ export function Sidebar() {
       </ul>
 
       <div className={styles.footer}>
-        <button className={styles.logoutBtn} title="Cerrar Sesión">
-          <LogOut size={24} />
-        </button>
+        {/* CERRAR SESIÓN TE REDIRIGE AL LOGIN */}
+        <Link to="/login" title="Cerrar Sesión" className={styles.link}>
+          <button className={styles.logoutBtn}>
+            <LogOut size={24} />
+          </button>
+        </Link>
       </div>
     </nav>
   );
