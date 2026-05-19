@@ -3,6 +3,9 @@ import { MapPin, Phone, Mail, PawPrint, ArrowLeft, Heart, Share2, Star } from 'l
 import styles from './ShelterDetail.module.css';
 import { Review } from '../Review/Review';
 
+const REVIEWS_API = 'http://localhost:8080/api/reviews';
+
+// Datos de ejemplo del refugio (Hardcoded para la vista)
 const shelterData = {
   id: 1, // ID importante para la relación en la DB
   name: 'Refugio Huellas Felices',
