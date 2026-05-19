@@ -1,0 +1,84 @@
+.container {
+  min-height: 100vh;
+  background: #efefef;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.card {
+  width: 390px;
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+.topbar {
+  height: 70px;
+  background: #eadcf8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.topbar h2 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #2f2f2f;
+}
+
+.content {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.content h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 38px;
+  color: #2f2f2f;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.field label {
+  margin-bottom: 8px;
+  font-size: 18px;
+  color: #333;
+}
+
+.field input,
+.field select {
+  height: 48px;
+  border-radius: 10px;
+  border: 1px solid #d6d6d6;
+  padding: 0 14px;
+  font-size: 18px;
+  background: white;
+}
+
+.saveBtn {
+  margin-top: 25px;
+  height: 52px;
+  border: none;
+  border-radius: 10px;
+  background: #b78ae8;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.saveBtn:hover {
+  background: #a56fe0;
+}

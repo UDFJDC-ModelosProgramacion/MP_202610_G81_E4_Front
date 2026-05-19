@@ -8,6 +8,8 @@ Sebastian Castañeda Bello
 
 Lucero Riaño Gómez
 
+Javier Rodríguez Rincón
+
 ## Descripción del Proyecto
 
 Este proyecto corresponde al desarrollo de una aplicación web dividida en dos capas principales:
