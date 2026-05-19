@@ -11,6 +11,7 @@ import { ManageRequests } from './pages/ManageRequest/ManageRequests'
 import { PetRegister } from './pages/PetRegister/PetRegister'
 import { Login } from './pages/Login/Login'
 import './App.css'
+import { SuperviseRequests } from './pages/SuperviseRequests/SuperviseRequests'
 
 function AppContent() {
   const location = useLocation();
