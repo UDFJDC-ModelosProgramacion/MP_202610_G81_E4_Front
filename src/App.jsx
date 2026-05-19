@@ -8,8 +8,12 @@ import { AdoptionRequest } from './pages/AdoptionRequest/AdoptionRequest'
 import { Register } from './pages/Register/Register'
 import { Review } from './pages/Review/Review'
 import { ManageRequests } from './pages/ManageRequest/ManageRequests'
+import { PetDetail } from './pages/PetDetail/PetDetail'
+import { PetList } from './pages/PetDetail/PetList'
+import { RegisterPet } from './pages/PetDetail/RegisterPet'
 import { PetRegister } from './pages/PetRegister/PetRegister'
 import { Login } from './pages/Login/Login'
+
 import './App.css'
 
 function AppContent() {
