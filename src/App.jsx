@@ -10,22 +10,22 @@ import { Review } from './pages/Review/Review'
 import { ManageRequests } from './pages/ManageRequest/ManageRequests'
 import { PetRegister } from './pages/PetRegister/PetRegister'
 import { Login } from './pages/Login/Login'
+import { AdminLogin } from './pages/AdminLogin/AdminLogin'
 import './App.css'
 import { SuperviseRequests } from './pages/SuperviseRequests/SuperviseRequests'
 
 function AppContent() {
   const location = useLocation();
-  
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/' || location.pathname === '/register';
+
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/' || location.pathname === '/register' || location.pathname === '/admin-login';
 
   if (isAuthPage) {
     return (
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
-        {/* Habilitamos la ruta para la página de Registro */}
+        <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/register" element={<Register />} />
-        {/* Si no coincide con ninguna, vuelve al login */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     );
@@ -49,7 +49,7 @@ function AppContent() {
           <Route path="/adoption-requests" element={<AdoptionRequest />} />
           <Route path="/review" element={<Review />} />
           <Route path="/manage-requests" element={<ManageRequests />} />
-          <Route path="/pet-register" element={<PetRegister />} /> 
+          <Route path="/pet-register" element={<PetRegister />} />
           <Route path="*" element={<Navigate to="/shelter" replace />} />
         </Routes>
       </main>
